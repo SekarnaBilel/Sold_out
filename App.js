@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./screens/HomeScreen";
 import InscriptionScreen from "./screens/InscriptionScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import ProductScreen from "./screens/ProductScreen";
 export default function App() {
   const Tabs = createBottomTabNavigator();
   return (
@@ -32,8 +33,8 @@ export default function App() {
       >
         <Tabs.Screen name="Home" component={HomeScreen} />
         <Tabs.Screen name="Compte" component={InscriptionScreen} />
+        <Tabs.Screen name="Product" component={ProductScreen} />
       </Tabs.Navigator>
     </NavigationContainer>
   );
 }
-
