@@ -1,40 +1,22 @@
-import { StyleSheet, Text, View } from "react-native";
-import { Suspense } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "./screens/HomeScreen";
-import InscriptionScreen from "./screens/InscriptionScreen";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import ProductScreen from "./screens/ProductScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import BottomNavigator from "./components/navigation/BottomNavigator";
+import DetailsScreen from "./screens/DetailsScreen";
+
 export default function App() {
-  const Tabs = createBottomTabNavigator();
+  const Stack = createNativeStackNavigator();
+
   return (
     <NavigationContainer>
-      <Tabs.Navigator
-        screenOptions={({ route }) => ({
-          tabLabel: false,
-          tabBarActiveTintColor: "red",
-          tabBarInactiveTintColor: "grey",
-          tabBarLabelStyle: { paddingBottom: 5, fontSize: 15 },
-          tabBarStyle: { backgroundColor: "white", height: "10%" },
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let rn = route.name;
-
-            if (rn === "Home") {
-              iconName = focused ? "search" : "search-outline";
-            } else if (rn === "Compte") {
-              iconName = focused ? "person" : "person-outline";
-            }
-
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-      >
-        <Tabs.Screen name="Home" component={HomeScreen} />
-        <Tabs.Screen name="Compte" component={InscriptionScreen} />
-        <Tabs.Screen name="Product" component={ProductScreen} />
-      </Tabs.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="BottomNavigator"
+          component={BottomNavigator}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen key={"DETAILS"} name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
