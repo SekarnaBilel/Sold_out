@@ -1,8 +1,11 @@
 # Application des futures sneakers à venir
 
+![image0 (2)](https://user-images.githubusercontent.com/93766213/183965862-0f3015c9-c567-4d11-b68e-9fd1b5a89206.png)
+
+
+![image1 (1)](https://user-images.githubusercontent.com/93766213/183965965-86ab90e8-d42c-4d1c-81cb-9729c8834e33.png)
 
 ## Installation
-
 
 ```
 npm install 
