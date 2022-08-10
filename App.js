@@ -13,7 +13,7 @@ export default function App() {
         <Stack.Screen
           name="BottomNavigator"
           component={BottomNavigator}
-          options={{ headerShown: false }}
+          options={{ headerShown: false}}
         />
         <Stack.Screen key={"DETAILS"} name="Details" component={DetailsScreen} />
       </Stack.Navigator>

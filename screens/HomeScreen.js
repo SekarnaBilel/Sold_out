@@ -1,60 +1,102 @@
-import {
-  StyleSheet,
-  Image,
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import {
+  SafeAreaView,
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  StatusBar,
+  ActivityIndicator,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 
 const HomeScreen = () => {
   const [article, setArticle] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pageCurrent, setPageCurrent] = useState(1);
 
   const navigation = useNavigation();
 
   const data = async () => {
     await axios
       .get(
-        `https://stockx.com/api/browse?productCategory=sneakers&sort=release_date&order=ASC&releaseTime=gte-1584918000&country=FR`
+        `https://stockx.com/api/browse?productCategory=sneakers&sort=release_date&order=ASC&releaseTime=gte-1584918000&country=FR&page=${pageCurrent}`
       )
       .then((res) => {
         setArticle(res.data.Products);
+        setIsLoading(false);
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  };  
+  };
 
   useEffect(() => {
+    setIsLoading(true);
     data();
-  }, []);
+  }, [pageCurrent]);
 
-  // console.log(article);
+  const Item = ({ title, releaseDate, retailPrice, imageUrl }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.date}>{releaseDate}</Text>
+      <Text style={styles.price}>{retailPrice}€</Text>
+      <Image styles={styles.img} source={{uri: imageUrl}} /> 
+    </View>
+  );
 
-  const productList = article.map((produit) => (
-    <TouchableOpacity onPress={() => navigation.navigate("Details", produit)}>
-      <View style={styles.container} key={produit.id}>
-        <Image style={styles.img} source={{ uri: produit.media.imageUrl }} />
-        <Text style={styles.title}>{produit.title}</Text>
-        <Text style={styles.date}>{produit.releaseDate}</Text>
-        <Text style={styles.price}>{produit.retailPrice}€</Text>
-      </View>
+  const renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => navigation.navigate("Details", item)}>
+      <Item
+        title={item.title}
+        releaseDate={item.releaseDate}
+        retailPrice={item.retailPrice}
+        imageUrl={item.media.imageUrl}
+      />
     </TouchableOpacity>
-  ));
+  );
 
-  return <ScrollView>{productList}</ScrollView>;
+  const renderFooter = () => {
+    return isLoading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#aaa"/>
+      </View>
+    ) : null;
+  };
+
+  const handleLoadMore = () => {
+    setPageCurrent(pageCurrent + 1);
+    setIsLoading(true);
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={article}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        ListFooterComponent={renderFooter}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0}
+      />
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    marginTop: 100,
-    marginHorizontal: 30,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  item: {
+    backgroundColor: "#f9c2ff",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
   },
   img: {
     width: "100%",
@@ -71,8 +113,6 @@ const styles = StyleSheet.create({
   date: {
     color: "grey",
     fontSize: 18,
-    position: "absolute",
-    top: 320,
     alignItems: "flex-start",
     fontWeight: "bold",
   },
@@ -80,10 +120,11 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 18,
     fontWeight: "bold",
-    position: "absolute",
-    top: 320,
-    left: 150,
   },
+  loader:{
+    marginVertical:16,
+    alignItems:"center",
+  }
 });
 
 export default HomeScreen;

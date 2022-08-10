@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 const InscriptionScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/logo.png")} />
+      <Image style={styles.logo} source={require("../assets/logo.png") !== 0 ? require("../assets/logo.png") : null } />
       <Text style={styles.text1}>Connectez-vous ou créer un compte</Text>
       <Text style={styles.text2}>pour gérer votre portfolio, vos offres et</Text>
       <Text style={styles.text3}>vos demandes.</Text>
