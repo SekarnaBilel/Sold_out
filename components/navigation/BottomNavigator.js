@@ -1,7 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../../screens/HomeScreen";
-import InscriptionScreen from "../../screens/InscriptionScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Header } from "react-native/Libraries/NewAppScreen";
 
@@ -30,8 +29,11 @@ const BottomNavigator = () => {
         },
       })}
     >
-      <Tabs.Screen name="Home" component={HomeScreen} />
-      <Tabs.Screen name="Compte" component={InscriptionScreen} />
+      <Tabs.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ title: "Release" }}
+      />
     </Tabs.Navigator>
   );
 };

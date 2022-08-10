@@ -13,9 +13,13 @@ export default function App() {
         <Stack.Screen
           name="BottomNavigator"
           component={BottomNavigator}
-          options={{ headerShown: false}}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen key={"DETAILS"} name="Details" component={DetailsScreen} />
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
+          options={{ headerTintColor: "black", headerBackTitleVisible: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
